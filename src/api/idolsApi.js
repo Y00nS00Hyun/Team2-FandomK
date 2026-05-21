@@ -1,6 +1,6 @@
 import httpClient from "./httpClient";
+import { API_BASE_URL } from "./config";
 
-const API_URL = "https://fandom-k-api.vercel.app/7-2";
 const ERROR_MESSAGES = {
   response: "아이돌 데이터를 가져오는데 실패했습니다.",
   id: "아이돌 id를 입력해주세요.",
@@ -32,7 +32,7 @@ export const getIdolList = async ({ pageSize = 10, cursor, keyword }) => {
   const params = { pageSize };
   if (cursor) params.cursor = cursor;
   if (keyword) params.keyword = keyword;
-  return await httpClient.get(`${API_URL}/idols`, params).catch((e) => {
+  return await httpClient.get(`${API_BASE_URL}/idols`, params).catch((e) => {
     throw new Error(ERROR_MESSAGES.response, e);
   });
 };
@@ -61,7 +61,7 @@ export const getIdolList = async ({ pageSize = 10, cursor, keyword }) => {
 const updateIdolData = async (id, body) => {
   if (!id) throw new Error(ERROR_MESSAGES.id);
   if (!body.profilePicture) throw new Error(ERROR_MESSAGES.profile);
-  return await httpClient.put(`${API_URL}/idols/${id}`, body).catch((e) => {
+  return await httpClient.put(`${API_BASE_URL}/idols/${id}`, body).catch((e) => {
     throw new Error(ERROR_MESSAGES.response, e);
   });
 };
@@ -78,7 +78,7 @@ const updateIdolData = async (id, body) => {
  */
 const deleteIdolData = async (id) => {
   if (!id) throw new Error(ERROR_MESSAGES.id);
-  return await httpClient.delete(`${API_URL}/idols/${id}`).catch((e) => {
+  return await httpClient.delete(`${API_BASE_URL}/idols/${id}`).catch((e) => {
     throw new Error(ERROR_MESSAGES.response, e);
   });
 };

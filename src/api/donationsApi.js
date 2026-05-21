@@ -1,6 +1,6 @@
 import httpClient from "./httpClient";
+import { API_BASE_URL } from "./config";
 
-const API_URL = "https://fandom-k-api.vercel.app/7-2";
 const ERROR_MESSAGES = {
   response: "후원 데이터를 가져오는데 실패했습니다.",
   id: "후원 id를 입력해주세요.",
@@ -32,7 +32,7 @@ export const getDonationList = async ({ pageSize = 10, cursor, priorityIdolIds }
   const params = { pageSize };
   if (cursor) params.cursor = cursor;
   if (priorityIdolIds) params.priorityIdolIds = priorityIdolIds;
-  return await httpClient.get(`${API_URL}/donations`, params).catch((e) => {
+  return await httpClient.get(`${API_BASE_URL}/donations`, params).catch((e) => {
     throw new Error(ERROR_MESSAGES.response, e);
   });
 };
@@ -52,7 +52,7 @@ export const getDonationList = async ({ pageSize = 10, cursor, priorityIdolIds }
  */
 const updateDonationData = async (id, body) => {
   if (!id) throw new Error(ERROR_MESSAGES.id);
-  return await httpClient.put(`${API_URL}/donations/${id}`, body).catch((e) => {
+  return await httpClient.put(`${API_BASE_URL}/donations/${id}`, body).catch((e) => {
     throw new Error(ERROR_MESSAGES.response, e);
   });
 };
@@ -66,7 +66,7 @@ const updateDonationData = async (id, body) => {
  */
 const deleteDonationData = async (id) => {
   if (!id) throw new Error(ERROR_MESSAGES.id);
-  return await httpClient.delete(`${API_URL}/donations/${id}`).catch((e) => {
+  return await httpClient.delete(`${API_BASE_URL}/donations/${id}`).catch((e) => {
     throw new Error(ERROR_MESSAGES.response, e);
   });
 };
@@ -86,7 +86,7 @@ const deleteDonationData = async (id) => {
 export const donateCredit = async (id, { amount }) => {
   const body = { amount };
   if (amount < 1000) throw new Error(ERROR_MESSAGES.credit);
-  return await httpClient.put(`${API_URL}/donations/${id}/contribute`, body).catch((e) => {
+  return await httpClient.put(`${API_BASE_URL}/donations/${id}/contribute`, body).catch((e) => {
     throw new Error(ERROR_MESSAGES.response, e);
   });
 };

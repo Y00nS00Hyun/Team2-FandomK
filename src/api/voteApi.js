@@ -1,6 +1,6 @@
 import httpClient from "./httpClient";
+import { API_BASE_URL } from "./config";
 
-const API_URL = "https://fandom-k-api.vercel.app/7-2";
 const ERROR_MESSAGES = {
   response: "투표 데이터를 가져오는데 실패했습니다.",
   id: "아이돌 id를 입력해주세요.",
@@ -18,7 +18,7 @@ const ERROR_MESSAGES = {
  */
 export const voteIdol = async ({ idolId }) => {
   if (!idolId) throw new Error(ERROR_MESSAGES.id);
-  return await httpClient.post(`${API_URL}/votes`, { idolId }).catch((e) => {
+  return await httpClient.post(`${API_BASE_URL}/votes`, { idolId }).catch((e) => {
     throw new Error(ERROR_MESSAGES.response, e);
   });
 };

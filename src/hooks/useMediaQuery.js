@@ -34,25 +34,20 @@ const BREAK_POINTS = {
  *   return <p>현재 모드: {mode}</p>;
  * };
  */
+function getMode(width) {
+  if (width < BREAK_POINTS.mobile) return "mobile";
+  if (width < BREAK_POINTS.tablet) return "tablet";
+  return "desktop";
+}
+
 function useMediaQuery() {
-  const [mode, setMode] = useState("desktop");
+  const [mode, setMode] = useState(() => (typeof window === "undefined" ? "desktop" : getMode(window.innerWidth)));
 
   useEffect(() => {
-    const handleResize = () => {
-      const width = window.innerWidth;
-      if (width < BREAK_POINTS.mobile) {
-        return setMode("mobile");
-      } else if (width < BREAK_POINTS.tablet) {
-        return setMode("tablet");
-      } else {
-        return setMode("desktop");
-      }
-    };
-
-    handleResize();
+    const handleResize = () => setMode(getMode(window.innerWidth));
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [mode]);
+  }, []);
 
   return mode;
 }
